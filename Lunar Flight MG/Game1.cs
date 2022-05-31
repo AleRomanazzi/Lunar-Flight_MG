@@ -9,13 +9,13 @@ namespace Lunar_Flight_MG
 {
     public class Game1 : Game
     {
-        private int puntos = 0, wind = 0, fuel = 1000;
+        private int puntos = 0, wind = 0, fuel = 600;
         GraphicsDeviceManager graphics;
         private SpriteBatch inGame, fondo, inicio, nivel;
         private double movement;
         private Texture2D lvl1, lvl2, lvl3;
-        private Texture2D Nave, Rock, moon, Base;
-        private Rectangle RockRec, moonRec, GoodRec, GoodRec2, GoodRec3, NaveRec, BaseRec;
+        private Texture2D Nave, Rock, moon, Base, earth, jupiter;
+        private Rectangle RockRec, RockRec2, RockRec3, moonRec, GoodRec, GoodRec2, GoodRec3, NaveRec, BaseRec;
         private Vector2 BasePos;
         MouseState mState;
         JoystickState joyst;
@@ -33,7 +33,6 @@ namespace Lunar_Flight_MG
             this.Window.AllowUserResizing = true;
             graphics.ApplyChanges();
 
-
             Content.RootDirectory = "Content";
 
         }
@@ -46,6 +45,8 @@ namespace Lunar_Flight_MG
             BasePos = new Vector2(200, 300);
             moonRec = new Rectangle(0, 0, this.Window.ClientBounds.Width, this.Window.ClientBounds.Height);
             RockRec = new Rectangle(0, 200, 30, 30);
+            RockRec2 = new Rectangle(0, 200, 30, 30);
+            RockRec3 = new Rectangle(0, 200, 30, 30);
             GoodRec = new Rectangle(0, 200, 200, 200);
             GoodRec2 = new Rectangle(0, 250, 200, 200);
             GoodRec3 = new Rectangle(0, 300, 200, 200);
@@ -71,6 +72,8 @@ namespace Lunar_Flight_MG
             lvl3 = this.Content.Load<Texture2D>("Fuente/n3");
             Rock = this.Content.Load<Texture2D>("Fuente/asteroide");
             moon = this.Content.Load<Texture2D>("Fuente/luna");
+            earth = this.Content.Load<Texture2D>("Fuente/tierra");
+            jupiter = this.Content.Load<Texture2D>("Fuente/jupiter");
             texto = this.Content.Load<SpriteFont>("Fuente/FuenteTexto");
             score = this.Content.Load<SpriteFont>("Fuente/FuenteTexto2");
             htp = this.Content.Load<SpriteFont>("Fuente/FuenteTexto2");
@@ -87,44 +90,47 @@ namespace Lunar_Flight_MG
                 Exit();
 
             // TODO: Add your update logic here
-            /*if (mState.LeftButton == ButtonState.Pressed)
-            {
-                start = true;
-            }
-            */
+
             if (start == true)
             {
-                movement = NaveRec.Y + 2 + 1 / 2 * 1.6;
+                movement = NaveRec.Y + 1 + 1 / 2 * 1.62;
                 NaveRec.Y = (int)movement;
-                Random rand = new Random();
-                int rockSpeed = rand.Next(5, 10);
-                RockRec.X += rockSpeed;
-            }
 
+                Random rand = new Random();
+                int rockSpeed = rand.Next(2, 6);
+                int rockSpeed2 = rand.Next(4, 10);
+                int rockSpeed3 = rand.Next(6, 12);
+
+
+                RockRec.X += rockSpeed;
+                RockRec2.X -= rockSpeed2;
+                RockRec3.X += rockSpeed3;
+            }
 
             mState = Mouse.GetState();
             joyst = Joystick.GetState(1);
             IsMouseVisible = false;
-            //NaveRec.X = mState.X;
+
+            //NaveRec.X = mState.X; mouse movement
 
             //Wind settings
             if (puntos >= 0)
             {
                 Random rd = new Random();
-                wind = rd.Next(-5, 5);
+                wind = rd.Next(1, 5);
                 NaveRec.X += wind;
             }
-            if (puntos >= 600)
+            if (puntos >= 400)
             {
                 Random rd = new Random();
-                wind = rd.Next(-8, 8);
+                wind = rd.Next(-8, -1);
                 NaveRec.X += wind;
 
             }
             if (puntos >= 1000)
             {
                 Random rd = new Random();
-                wind = rd.Next(-12, 12);
+                wind = rd.Next(-10, -1);
                 NaveRec.X += wind;
             }
 
@@ -160,25 +166,22 @@ namespace Lunar_Flight_MG
 
             //Collision settings
 
-            /*if (RockRec.Intersects(NaveRec))
-            {
-                Exit(); //Cambiar por texto y pausar juego o resetear.
-            }
-            */
             if (NaveRec.Intersects(BaseRec))
             {
                 puntos += 200;
                 Random rd = new Random();
                 int rect = rd.Next(0, 400);
+                int rect2 = rd.Next(0, 400);
+                int rect3 = rd.Next(0, 400);
                 BaseRec = new Rectangle(rect, 380, 160, 120);
                 NaveRec = new Rectangle(rect, 0, 50, 50);
-                RockRec = new Rectangle(rect, rect, 30, 30);
+                RockRec = new Rectangle(0, rect, 30, 30);
+                RockRec2 = new Rectangle(1000, rect2, 30, 30);
+                RockRec3 = new Rectangle(0, rect3, 30, 30);
 
-                /*if (coll == 3)
-                {
-                    Exit();
-                }
-                */
+            }
+            if (NaveRec.Intersects(RockRec) || NaveRec.Intersects(RockRec2) || NaveRec.Intersects(RockRec3)) {
+                Exit();
             }
             base.Update(gameTime);
         }
@@ -213,31 +216,39 @@ namespace Lunar_Flight_MG
                 inGame.Draw(Nave, NaveRec, Color.White);
                 inGame.Draw(Base, BaseRec, Color.White);
 
-                if (puntos >= 0 && puntos < 600)
+                if (puntos >= 0 && puntos < 400)
                 {
                     nivel.Begin();
                     nivel.Draw(lvl1, GoodRec, Color.White);
                     nivel.End();
+                    inGame.Draw(Rock, RockRec, Color.White);
+                    inGame.Draw(Rock, RockRec2, Color.White);
+
+
                 }
-                if (puntos >= 600 && puntos < 1000)
+                if (puntos >= 400 && puntos < 1000)
                 {
                     nivel.Begin();
+                    nivel.Draw(earth, moonRec, Color.White);
                     nivel.Draw(lvl2, GoodRec, Color.White);
                     nivel.End();
                     inGame.Draw(Rock, RockRec, Color.White);
+                    inGame.Draw(Rock, RockRec2, Color.White);
+                    inGame.Draw(Rock, RockRec3, Color.White);
 
                 }
                 if (puntos >= 1000)
                 {
                     nivel.Begin();
+                    nivel.Draw(jupiter, moonRec, Color.White);
                     nivel.Draw(lvl3, GoodRec, Color.White);
                     nivel.End();
                     inGame.Draw(Rock, RockRec, Color.White);
+                    inGame.Draw(Rock, RockRec2, Color.White);
+                    inGame.Draw(Rock, RockRec3, Color.White);
                 }
                 inGame.End();
             }
-
-
             base.Draw(gameTime);
         }
     }

@@ -51,6 +51,18 @@
 /processorParam:TextureFormat=Compressed
 /build:Fuente/FuenteTexto2.spritefont
 
+#begin Fuente/jupiter.jpeg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Fuente/jupiter.jpeg
+
 #begin Fuente/luna.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -146,4 +158,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Fuente/pixil-frame-0.png
+
+#begin Fuente/tierra.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Fuente/tierra.jpg
 
