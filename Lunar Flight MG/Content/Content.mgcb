@@ -147,6 +147,18 @@
 /processorParam:TextureFormat=Color
 /build:Fuente/nave2p.png
 
+#begin Fuente/noFuel.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Fuente/noFuel.png
+
 #begin Fuente/pixil-frame-0.png
 /importer:TextureImporter
 /processor:TextureProcessor

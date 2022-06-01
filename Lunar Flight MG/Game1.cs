@@ -11,10 +11,10 @@ namespace Lunar_Flight_MG
     {
         private int puntos = 0, wind = 0, fuel = 600;
         GraphicsDeviceManager graphics;
-        private SpriteBatch inGame, fondo, inicio, nivel;
+        private SpriteBatch inGame, fondo, inicio, nivel, noFuel;
         private double movement;
         private Texture2D lvl1, lvl2, lvl3;
-        private Texture2D Nave, Rock, moon, Base, earth, jupiter;
+        private Texture2D Nave, Rock, moon, Base, earth, jupiter, iFuel;
         private Rectangle RockRec, RockRec2, RockRec3, moonRec, GoodRec, GoodRec2, GoodRec3, NaveRec, BaseRec;
         private Vector2 BasePos;
         MouseState mState;
@@ -61,6 +61,7 @@ namespace Lunar_Flight_MG
             inicio = new SpriteBatch(GraphicsDevice);
             fondo = new SpriteBatch(GraphicsDevice);
             nivel = new SpriteBatch(GraphicsDevice);
+            noFuel = new SpriteBatch(GraphicsDevice);
 
 
             // TODO: use this.Content to load your game content here
@@ -79,8 +80,7 @@ namespace Lunar_Flight_MG
             htp = this.Content.Load<SpriteFont>("Fuente/FuenteTexto2");
             textWind = this.Content.Load<SpriteFont>("Fuente/FuenteTexto2");
             textFuel = this.Content.Load<SpriteFont>("Fuente/FuenteTexto2");
-
-
+            iFuel = this.Content.Load<Texture2D>("Fuente/noFuel");
 
         }
 
@@ -105,34 +105,49 @@ namespace Lunar_Flight_MG
                 RockRec.X += rockSpeed;
                 RockRec2.X -= rockSpeed2;
                 RockRec3.X += rockSpeed3;
+
+                //Wind settings
+                Random rd = new Random();
+
+                if (puntos >= 0)
+                {
+                    wind = rd.Next(1, 5);
+                    NaveRec.X += wind;
+                }
+                if (puntos >= 400)
+                {
+                    wind = rd.Next(-8, -1);
+                    NaveRec.X += wind;
+
+                }
+                if (puntos >= 1000)
+                {
+                    wind = rd.Next(-10, -1);
+                    NaveRec.X += wind;
+                }
+                if (fuel <= 0)
+                {
+
+                }
             }
 
             mState = Mouse.GetState();
             joyst = Joystick.GetState(1);
             IsMouseVisible = false;
 
+            if (NaveRec.Y > this.Window.ClientBounds.Height)
+            {
+                Exit();
+            }
+            /*if (NaveRec.X > this.Window.ClientBounds.Width)
+            {
+                Exit();
+            }
+            */
+
             //NaveRec.X = mState.X; mouse movement
 
-            //Wind settings
-            if (puntos >= 0)
-            {
-                Random rd = new Random();
-                wind = rd.Next(1, 5);
-                NaveRec.X += wind;
-            }
-            if (puntos >= 400)
-            {
-                Random rd = new Random();
-                wind = rd.Next(-8, -1);
-                NaveRec.X += wind;
-
-            }
-            if (puntos >= 1000)
-            {
-                Random rd = new Random();
-                wind = rd.Next(-10, -1);
-                NaveRec.X += wind;
-            }
+           
 
             GamePadState state = GamePad.GetState(PlayerIndex.One);
 
@@ -246,6 +261,12 @@ namespace Lunar_Flight_MG
                     inGame.Draw(Rock, RockRec, Color.White);
                     inGame.Draw(Rock, RockRec2, Color.White);
                     inGame.Draw(Rock, RockRec3, Color.White);
+                }
+                if (fuel <= 0)
+                {
+                    noFuel.Begin();
+                    noFuel.Draw(iFuel, moonRec, Color.White);
+                    noFuel.End();
                 }
                 inGame.End();
             }
