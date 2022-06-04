@@ -24,7 +24,7 @@ namespace Lunar_Flight_MG
         {
             graphics = new GraphicsDeviceManager(this)
             {
-                IsFullScreen = true, //Change to false if you prefer play with windows mode.
+                IsFullScreen = false,
                 PreferredBackBufferWidth = 1024,
                 PreferredBackBufferHeight = 720
             };
