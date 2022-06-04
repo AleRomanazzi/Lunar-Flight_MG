@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 
-
-
 namespace Lunar_Flight_MG
 {
     public class Game1 : Game
@@ -26,15 +24,13 @@ namespace Lunar_Flight_MG
         {
             graphics = new GraphicsDeviceManager(this)
             {
-                IsFullScreen = false,
-                PreferredBackBufferWidth = 1920,
-                PreferredBackBufferHeight = 1080
+                IsFullScreen = true, //Change to false if you prefer play with windows mode.
+                PreferredBackBufferWidth = 1024,
+                PreferredBackBufferHeight = 720
             };
             this.Window.AllowUserResizing = true;
             graphics.ApplyChanges();
-
             Content.RootDirectory = "Content";
-
         }
 
         protected override void Initialize()
@@ -50,10 +46,8 @@ namespace Lunar_Flight_MG
             GoodRec = new Rectangle(0, 200, 200, 200);
             GoodRec2 = new Rectangle(0, 250, 200, 200);
             GoodRec3 = new Rectangle(0, 300, 200, 200);
-
             base.Initialize();
         }
-
         protected override void LoadContent()
         {
             this.Window.Title = "Lunar Flight";
@@ -62,7 +56,6 @@ namespace Lunar_Flight_MG
             fondo = new SpriteBatch(GraphicsDevice);
             nivel = new SpriteBatch(GraphicsDevice);
             noFuel = new SpriteBatch(GraphicsDevice);
-
 
             // TODO: use this.Content to load your game content here
 
@@ -81,7 +74,6 @@ namespace Lunar_Flight_MG
             textWind = this.Content.Load<SpriteFont>("Fuente/FuenteTexto2");
             textFuel = this.Content.Load<SpriteFont>("Fuente/FuenteTexto2");
             iFuel = this.Content.Load<Texture2D>("Fuente/noFuel");
-
         }
 
         protected override void Update(GameTime gameTime)
@@ -139,17 +131,11 @@ namespace Lunar_Flight_MG
             {
                 Exit();
             }
-            /*if (NaveRec.X > this.Window.ClientBounds.Width)
-            {
-                Exit();
-            }
-            */
 
-            //NaveRec.X = mState.X; mouse movement
-
-           
+            //NaveRec.X = mState.X; uncomment this line of code if you want to play with mouse movements.
 
             GamePadState state = GamePad.GetState(PlayerIndex.One);
+
 
             //Joystick and Keyboard Settings
             if (GamePad.GetCapabilities(PlayerIndex.One).HasLeftXThumbStick)
@@ -164,13 +150,13 @@ namespace Lunar_Flight_MG
             {
                 NaveRec.X -= 6;
             }
-            if (mState.LeftButton == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed)
+            if (mState.LeftButton == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.L))
             {
                 fuel -= 1;
                 NaveRec.Y -= 5;
                 Nave = this.Content.Load<Texture2D>("Fuente/nave2");
             }
-            if (mState.LeftButton == ButtonState.Released && GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Released)
+            if (mState.LeftButton == ButtonState.Released && GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Released && Keyboard.GetState().IsKeyUp(Keys.L))
             {
                 Nave = this.Content.Load<Texture2D>("Fuente/nave2p");
             }
